@@ -16,16 +16,16 @@ router.use('/users', auth, require('./users'));
 router.use('/movies', auth, require('./movies'));
 
 router.use('/logout', auth, (req, res) => {
-    res.clearCookie('jwt', {
-        maxAge: 3600000,
-        httpOnly: true,
-        sameSite: 'None',
-        secure: true,
-    }).send({ message: EXIT_COMPLETED });
+  res.clearCookie('jwt', {
+    maxAge: 3600000,
+    httpOnly: true,
+    sameSite: 'None',
+    secure: true,
+  }).send({ message: EXIT_COMPLETED });
 });
 
 router.use(() => {
-    throw new NotFoundError(PAGE_NOT_FOUND);
+  throw new NotFoundError(PAGE_NOT_FOUND);
 });
 
 module.exports = router;

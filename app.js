@@ -21,7 +21,7 @@ app.use(limiter);
 app.use(cookieParser());
 
 mongoose.connect(CURRENT_DATABASE_PATH, {
-    useNewUrlParser: true,
+  useNewUrlParser: true,
 });
 
 app.use(cors);
@@ -31,5 +31,6 @@ app.use(errors());
 app.use(handleErrors);
 
 app.listen(CURRENT_PORT, () => {
-    console.log(`App listen ${CURRENT_PORT}`);
+  // eslint-disable-next-line no-console
+  console.log(`App listen ${CURRENT_PORT}`);
 });

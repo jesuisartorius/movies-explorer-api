@@ -2,8 +2,8 @@ const router = require('express').Router();
 const { updateProfileValidator } = require('../middlewares/validation');
 
 const {
-    findCurrentUserById,
-    updateProfile,
+  findCurrentUserById,
+  updateProfile,
 } = require('../controllers/users');
 
 router.get('/me', findCurrentUserById);
