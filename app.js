@@ -13,11 +13,11 @@ const { CURRENT_PORT, CURRENT_DATABASE_PATH } = require('./configs/index');
 
 const app = express();
 
+app.use(requestLogger);
+app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
-app.use(requestLogger);
-app.use(limiter);
 app.use(cookieParser());
 
 mongoose.connect(CURRENT_DATABASE_PATH, {
@@ -31,6 +31,5 @@ app.use(errors());
 app.use(handleErrors);
 
 app.listen(CURRENT_PORT, () => {
-  // eslint-disable-next-line no-console
   console.log(`App listen ${CURRENT_PORT}`);
 });

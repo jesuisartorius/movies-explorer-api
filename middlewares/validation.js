@@ -1,8 +1,17 @@
 const { celebrate, Joi } = require('celebrate');
+const { isEmail, isURL } = require('validator');
+const {
+  INVALID_LINK_FORMAT,
+  INVALID_EMAIL_FORMAT,
+} = require('../configs/messages');
 
 const signupValidator = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
+    email: Joi.string()
+      .required()
+      .custom((value, helpers) => (isEmail(value)
+        ? value
+        : helpers.message(INVALID_EMAIL_FORMAT))),
     password: Joi.string().required(),
     name: Joi.string().required().min(2).max(30),
   }),
@@ -10,7 +19,11 @@ const signupValidator = celebrate({
 
 const signinValidator = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
+    email: Joi.string()
+      .required()
+      .custom((value, helpers) => (isEmail(value)
+        ? value
+        : helpers.message(INVALID_EMAIL_FORMAT))),
     password: Joi.string().required(),
   }),
 });
@@ -22,9 +35,21 @@ const createMovieValidator = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().length(4).required(),
     description: Joi.string().min(2).max(1500).required(),
-    image: Joi.string().required().pattern(/\/uploads\/\w*.(?:jpg|jpeg|png)$/),
-    trailer: Joi.string().required().pattern(/https?:\/\/(www.)?[\w-]*\.\w{2}\/?[a-z0-9\S]*/),
-    thumbnail: Joi.string().required().pattern(/\/uploads\/thumbnail_\w*.(?:jpg|jpeg|png)$/),
+    image: Joi.string()
+      .required()
+      .custom((value, helpers) => (isURL(value)
+        ? value
+        : helpers.message(INVALID_LINK_FORMAT))),
+    trailer: Joi.string()
+      .required()
+      .custom((value, helpers) => (isURL(value)
+        ? value
+        : helpers.message(INVALID_LINK_FORMAT))),
+    thumbnail: Joi.string()
+      .required()
+      .custom((value, helpers) => (isURL(value)
+        ? value
+        : helpers.message(INVALID_LINK_FORMAT))),
     movieId: Joi.number().required(),
     nameRU: Joi.string().min(2).max(100).required(),
     nameEN: Joi.string().min(2).max(100).required(),
@@ -39,7 +64,11 @@ const removeMovieValidator = celebrate({
 
 const updateProfileValidator = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
+    email: Joi.string()
+      .required()
+      .custom((value, helpers) => (isEmail(value)
+        ? value
+        : helpers.message(INVALID_EMAIL_FORMAT))),
     name: Joi.string().required().min(2).max(30),
   }),
 });
