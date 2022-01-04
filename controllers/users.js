@@ -76,7 +76,7 @@ module.exports.createUser = (req, res, next) => {
             name: newUser.name,
           }))
           .catch((err) => {
-            if (err.name === 'MongoError' && err.code === 11000) {
+            if (err.name === 'MongoServerError' && err.code === 11000) {
               next(new ConflictError(USER_EMAIL_NOT_VALID));
             } else if (err.name === 'ValidationError') {
               next(new BadRequestError(DATA_NOT_VALID_TO_CREATE_USER));
