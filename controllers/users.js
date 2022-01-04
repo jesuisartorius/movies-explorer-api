@@ -110,7 +110,7 @@ module.exports.updateProfile = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError(DATA_NOT_VALID_TO_UPDATE_PROFILE));
-      } else if (err.name === 'MongoError' && err.code === 11000) {
+      } else if (err.name === 'MongoServerError' && err.code === 11000) {
         next(new ConflictError(USER_EMAIL_NOT_VALID));
       } else if (!req.user._id) {
         next(new NotFoundError(USER_NOT_FOUND));
