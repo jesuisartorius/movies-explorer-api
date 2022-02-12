@@ -11,3 +11,4 @@ node_modules
 # Optional REPL history
 .idea
 .env
+.DS_Store
