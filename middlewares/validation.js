@@ -1,17 +1,8 @@
 const { celebrate, Joi } = require('celebrate');
-const { isEmail, isURL } = require('validator');
-const {
-  INVALID_LINK_FORMAT,
-  INVALID_EMAIL_FORMAT,
-} = require('../configs/messages');
 
 const signupValidator = celebrate({
   body: Joi.object().keys({
-    email: Joi.string()
-      .required()
-      .custom((value, helpers) => (isEmail(value)
-        ? value
-        : helpers.message(INVALID_EMAIL_FORMAT))),
+    email: Joi.string().required().email(),
     password: Joi.string().required(),
     name: Joi.string().required().min(2).max(30),
   }),
@@ -19,11 +10,7 @@ const signupValidator = celebrate({
 
 const signinValidator = celebrate({
   body: Joi.object().keys({
-    email: Joi.string()
-      .required()
-      .custom((value, helpers) => (isEmail(value)
-        ? value
-        : helpers.message(INVALID_EMAIL_FORMAT))),
+    email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 });
@@ -52,11 +39,7 @@ const removeMovieValidator = celebrate({
 
 const updateProfileValidator = celebrate({
   body: Joi.object().keys({
-    email: Joi.string()
-      .required()
-      .custom((value, helpers) => (isEmail(value)
-        ? value
-        : helpers.message(INVALID_EMAIL_FORMAT))),
+    email: Joi.string().required().email(),
     name: Joi.string().required().min(2).max(30),
   }),
 });

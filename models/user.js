@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { INVALID_EMAIL_FORMAT } = require('../configs/messages');
 
 const userSchema = new mongoose.Schema({

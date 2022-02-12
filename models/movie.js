@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const isURL = require('validator/lib/isURL');
 const { INVALID_LINK_FORMAT } = require('../configs/messages');
 
 const movieSchema = new mongoose.Schema({
@@ -34,7 +33,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => isURL(v),
+      validator: (v) => /\/uploads\/\w*.(?:jpg|jpeg|png)$/.test(v),
       message: INVALID_LINK_FORMAT,
     },
   },
@@ -42,7 +41,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => isURL(v),
+      validator: (v) => /https?:\/\/(www.)?[\w-]*\.\w{2}\/?[a-z0-9\S]*/.test(v),
       message: INVALID_LINK_FORMAT,
     },
   },
@@ -50,7 +49,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => isURL(v),
+      validator: (v) => /\/uploads\/thumbnail_\w*.(?:jpg|jpeg|png)$/.test(v),
       message: INVALID_LINK_FORMAT,
     },
   },

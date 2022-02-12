@@ -8,6 +8,7 @@ const {
   USER_EMAIL_NOT_VALID,
   DATA_NOT_VALID_TO_CREATE_USER,
   DATA_NOT_VALID_TO_UPDATE_PROFILE,
+  // SUCCESSFUL_LOGIN,
 } = require('../configs/messages');
 
 const BadRequestError = require('../errors/bad-request-error');
@@ -29,6 +30,7 @@ module.exports.login = (req, res, next) => {
           secure: true,
         })
         .send({
+          // message: SUCCESSFUL_LOGIN,
           email: user.email,
           name: user.name,
         });
@@ -76,7 +78,7 @@ module.exports.createUser = (req, res, next) => {
             name: newUser.name,
           }))
           .catch((err) => {
-            if (err.name === 'MongoServerError' && err.code === 11000) {
+            if (err.name === 'MongoError' && err.code === 11000) {
               next(new ConflictError(USER_EMAIL_NOT_VALID));
             } else if (err.name === 'ValidationError') {
               next(new BadRequestError(DATA_NOT_VALID_TO_CREATE_USER));
@@ -85,8 +87,7 @@ module.exports.createUser = (req, res, next) => {
             }
           });
       }
-    })
-    .catch(next);
+    });
 };
 
 module.exports.updateProfile = (req, res, next) => {
@@ -110,7 +111,7 @@ module.exports.updateProfile = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError(DATA_NOT_VALID_TO_UPDATE_PROFILE));
-      } else if (err.name === 'MongoServerError' && err.code === 11000) {
+      } else if (err.name === 'MongoError' && err.code === 11000) {
         next(new ConflictError(USER_EMAIL_NOT_VALID));
       } else if (!req.user._id) {
         next(new NotFoundError(USER_NOT_FOUND));
