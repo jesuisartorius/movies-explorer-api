@@ -36,11 +36,7 @@ const createMovieValidator = celebrate({
     year: Joi.string().length(4).required(),
     description: Joi.string().min(2).max(1500).required(),
     image: Joi.string().required().pattern(/\/uploads\/\w*.(?:jpg|jpeg|png)$/),
-    trailer: Joi.string()
-      .required()
-      .custom((value, helpers) => (isURL(value)
-        ? value
-        : helpers.message(INVALID_LINK_FORMAT))),
+    trailer: Joi.string().required().pattern(/https?:\/\/(www.)?[\w-]*\.\w{2}\/?[a-z0-9\S]*/),
     thumbnail: Joi.string().required().pattern(/\/uploads\/thumbnail_\w*.(?:jpg|jpeg|png)$/),
     movieId: Joi.number().required(),
     nameRU: Joi.string().min(2).max(100).required(),
